@@ -1,37 +1,54 @@
 # Blog Agent: 네이버 블로그 생성기
 
 ## 소개
-Blog Agent는 LangGraph, LangChain, OpenAI, Streamlit 등 최신 AI/LLM 프레임워크를 활용하여 네이버 블로그 포스트를 자동으로 생성하는 멀티에이전트 파이프라인 프로젝트입니다. 
+Blog Agent는 **LangGraph** 기반의 멀티에이전트 파이프라인으로, 네이버 블로그 포스트를 자동 생성하는 백엔드 시스템입니다. LangChain, OpenAI API 등 최신 AI/LLM 기술을 활용하여 주제 리서치부터 SEO 최적화, 콘텐츠 작성, 이미지 생성까지 전 과정을 자동화합니다.
 
 - **주요 기능**
-  - 웹 검색 및 콘텐츠 스크래핑
-  - SEO 분석 및 최적화 태그 추천
-  - 블로그 초안 자동 작성 (마크다운)
-  - DALL-E 기반 대표 이미지 프롬프트 생성 및 이미지 생성
-  - 전체 파이프라인을 Streamlit UI로 손쉽게 실행
+  - 🔍 **웹 검색 및 콘텐츠 스크래핑**: Tavily API를 활용한 실시간 자료 수집
+  - 📈 **SEO 분석 및 최적화**: 네이버 SEO 트렌드 기반 태그 및 키워드 추천
+  - ✍️ **블로그 초안 자동 작성**: 마크다운 형식의 고품질 콘텐츠 생성
+  - 🎨 **DALL-E 이미지 생성**: 블로그 주제에 맞는 대표 이미지 자동 생성
+  - 🤖 **모듈형 에이전트 구조**: 확장과 커스터마이징이 용이한 설계
 
 ## 폴더 구조
 
 ```
 blog-agent/
-├── main.py
-├── pyproject.toml
-├── README.md
-├── .env
-├── .gitignore
-├── .python-version
-├── uv.lock
+├── README.md                    # 프로젝트 소개 문서
+├── CONTRIBUTING.md              # 기여 가이드라인
+├── LICENSE                      # 라이선스 파일
+├── blog-agent.code-workspace    # VS Code 워크스페이스 설정
+│
+└── backand/                     # 백엔드 (LangGraph 기반 에이전트)
+    ├── pyproject.toml           # 의존성 명세
+    ├── langgraph.json           # LangGraph 설정
+    ├── uv.lock                  # 패키지 잠금 파일
+    ├── .env.example             # 환경변수 템플릿
+    ├── tests/                   # 테스트 코드
+    │
+    └── casts/                   # 멀티에이전트 파이프라인 코어
+        ├── base_graph.py        # 그래프 기본 클래스
+        ├── base_node.py         # 노드 기본 클래스
+        │
+        └── chat/                # 채팅 에이전트 모듈
+            ├── graph.py         # LangGraph 워크플로우 정의
+            └── modules/         # 모듈 컴포넌트
+                ├── agents.py    # 에이전트 정의
+                ├── nodes.py     # 노드 구현
+                ├── state.py     # 상태 관리
+                ├── prompts.py   # 프롬프트 템플릿
+                ├── tools.py     # 도구 정의
+                ├── models.py    # 데이터 모델
+                ├── conditions.py    # 조건 분기 로직
+                ├── middlewares.py   # 미들웨어
+                └── utils.py     # 유틸리티 함수
 ```
-- `main.py` : 전체 멀티에이전트 파이프라인 및 Streamlit UI
-- `.env` : API 키 환경변수 파일
-- `pyproject.toml` : 프로젝트 의존성 명세
 
+### 주요 디렉토리 설명
+- **backand/**: LangGraph 기반 백엔드 서버 및 에이전트 로직
+- **casts/**: 멀티에이전트 파이프라인의 핵심 구현체
+- **chat/modules/**: 각 에이전트의 세부 컴포넌트 (노드, 상태, 프롬프트 등)
 
-## 에이전트 구성
-- **Researcher**: 주제 관련 웹 검색 및 자료 수집
-- **SEO Specialist**: 최신 네이버 SEO 트렌드 분석 및 태그 추천
-- **Writer**: SEO 분석 결과를 바탕으로 블로그 초안 작성
-- **Art Director**: 블로그 제목/내용 기반 대표 이미지 프롬프트 및 이미지 생성
 
 ## 사용법
 1. `.env` 파일에 아래와 같이 API 키를 입력합니다.
@@ -40,16 +57,7 @@ blog-agent/
    TAVILY_API_KEY=tvly-...
    # (필요시) LANGCHAIN_API_KEY=...
    ```
-2. 가상환경 생성 및 의존성 설치 (uv 사용 권장)
-   ```powershell
-   uv venv
-   .\.venv\Scripts\Activate.ps1
-   uv sync
-   ```
-3. Streamlit 앱 실행
-   ```bash
-   uv run streamlit run app.py
-   ```
+
 
 
 ## 기여 방법
@@ -60,7 +68,7 @@ blog-agent/
 4. Pull Request(PR)를 생성해 주세요.
 5. PR에는 변경 목적, 주요 변경점, 테스트 방법 등을 명확히 작성해 주세요.
 
-기여 전 최신 `master` 브랜치와 동기화(sync)하는 것을 권장합니다.
+기여 전 최신 `v2-main` 브랜치와 동기화(sync)하는 것을 권장합니다.
 
 이슈나 개선 제안도 언제든 환영합니다!   
 소통방 : https://open.kakao.com/o/gbTuFgOh
