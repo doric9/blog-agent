@@ -1,0 +1,21 @@
+# Project configuration file
+# This file defines the dependencies and metadata for the package.
+# The Python package manager (uv) uses this file to install required packages.
+# To add a dependency to this package, use `uv add <<package_name>> --package blog-writer`.
+
+[project]
+name = "blog-writer"
+version = "0.1.0"
+description = "웹사이트 URL 기반 블로그 포스트 자동 작성 Cast"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "langchain-openai",
+    "langchain-anthropic",
+    "langchain-google-genai",
+    "beautifulsoup4",
+    "playwright",
+    "openai",
+    "httpx",
+    "markdown",
+]

@@ -1,7 +1,10 @@
 {
-  "dependencies": ["."],
+  "dependencies": [
+    "."
+  ],
   "graphs": {
-    "chat": "./casts/chat/graph.py:chat_graph"
+    "chat": "./casts/chat/graph.py:chat_graph",
+    "blog-writer": "./casts/blog_writer/graph.py:blog_writer_graph"
   },
   "env": ".env"
 }
