@@ -1,21 +1,19 @@
 """FastAPI application entry point."""
 
 import sys
+from contextlib import asynccontextmanager
 from pathlib import Path
+
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 # Add project root to sys.path for Vercel
 path = Path(__file__).resolve().parent.parent
 if str(path) not in sys.path:
     sys.path.insert(0, str(path))
 
-
-from contextlib import asynccontextmanager
-
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-
-from api.config import settings
-from api.routes import blog, chat, health, posts, tools
+from api.config import settings  # noqa: E402
+from api.routes import blog, chat, health, posts, tools  # noqa: E402
 
 
 @asynccontextmanager
