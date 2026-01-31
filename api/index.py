@@ -1,7 +1,7 @@
 """Vercel serverless handler for FastAPI app."""
 
-import sys
 import os
+import sys
 from pathlib import Path
 
 # Add project root to sys.path
@@ -20,6 +20,7 @@ except Exception as e:
     # If import fails, create a minimal app that reports the error.
     # This helps diagnose missing dependencies or path issues on Vercel.
     import traceback
+
     from fastapi import FastAPI
 
     app = FastAPI(title="Blog Agent API (Import Error)")

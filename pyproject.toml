@@ -22,3 +22,29 @@ dependencies = [
 [tool.pytest.ini_options]
 pythonpath = ["."]
 asyncio_mode = "auto"
+
+[tool.ruff]
+exclude = [
+    "(^|/)(.venv|venv|node_modules|__pycache__|.pytest_cache|.ruff_cache|migrations|static|templates|.git|.github|.langgraph_api|media)(/|$)",
+    "^tests(/|$)",
+    "^unit_tests(/|$)",
+    ".env",
+    ".env.example",
+    ".gitignore",
+    "LICENSE",
+    "README.md",
+    "langgraph.json",
+    "uv.lock"
+]
+lint.select = [
+    "E",
+    "F",
+    "I",
+    "B",
+]
+lint.ignore = [
+    "E501",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B905"]

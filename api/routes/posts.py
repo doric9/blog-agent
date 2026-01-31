@@ -1,7 +1,8 @@
-from fastapi import APIRouter, HTTPException, status, Query, Path
 from typing import List, Optional
 
-from api.schemas.post import PostCreate, PostUpdate, PostResponse
+from fastapi import APIRouter, HTTPException, Path, Query, status
+
+from api.schemas.post import PostCreate, PostResponse, PostUpdate
 from api.services.post_service import PostService
 
 router = APIRouter(prefix="/posts", tags=["posts"])
