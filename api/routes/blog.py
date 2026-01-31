@@ -146,9 +146,7 @@ async def start_blog_generation(request: BlogRequest) -> BlogJobResponse:
                 "error": str(e),  # Keep for internal diagnostics
                 "created_at": time.time(),
             }
-        raise HTTPException(
-            status_code=500, detail="Blog generation failed"
-        ) from None
+        raise HTTPException(status_code=500, detail="Blog generation failed") from None
 
 
 @router.post("/{job_id}/resume", response_model=BlogJobResponse)
@@ -186,7 +184,6 @@ async def resume_blog_generation(
     graph = get_blog_writer_graph()
 
     try:
-
         # Update state with selected keywords, then resume
         await graph.aupdate_state(
             config,
@@ -201,7 +198,9 @@ async def resume_blog_generation(
             html_content=result.get("html_content", ""),
             suggested_keywords=suggested_keywords,
             selected_keywords=request.selected_keywords,
-            seo_meta=SEOMeta(**(result.get("seo_meta") or {"title": "", "description": ""})),
+            seo_meta=SEOMeta(
+                **(result.get("seo_meta") or {"title": "", "description": ""})
+            ),
             image_urls=result.get("image_urls", []),
         )
 
@@ -220,9 +219,7 @@ async def resume_blog_generation(
         async with _jobs_lock:
             _jobs[job_id]["status"] = JobStatus.FAILED
             _jobs[job_id]["error"] = str(e)  # Keep for internal diagnostics
-        raise HTTPException(
-            status_code=500, detail="Blog generation failed"
-        ) from None
+        raise HTTPException(status_code=500, detail="Blog generation failed") from None
 
 
 @router.get("/{job_id}/status", response_model=BlogJobStatusResponse)
@@ -240,6 +237,8 @@ async def get_job_status(job_id: str) -> BlogJobStatusResponse:
         result=job.get("result"),
         error=job.get("error"),
     )
+
+
 @router.get("/jobs", response_model=list[BlogJobStatusResponse])
 async def list_jobs() -> list[BlogJobStatusResponse]:
     """List all blog generation jobs in memory."""

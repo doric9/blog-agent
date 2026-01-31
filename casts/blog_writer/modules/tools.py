@@ -190,7 +190,9 @@ async def fetch_image_pexels(query: str) -> str:
         return ""
 
 
-def _get_available_image_provider(requested_provider: ImageProvider) -> Optional[ImageProvider]:
+def _get_available_image_provider(
+    requested_provider: ImageProvider,
+) -> Optional[ImageProvider]:
     """Determine available image provider based on API keys.
 
     Priority: Requested -> DALL-E -> Unsplash -> Pexels -> Stability
@@ -236,7 +238,9 @@ async def generate_image(
     active_provider = _get_available_image_provider(provider)
 
     if active_provider is None:
-        raise ValueError("사용 가능한 이미지 제공자 API 키가 없습니다. 이미지 생성을 건너뜁니다.")
+        raise ValueError(
+            "사용 가능한 이미지 제공자 API 키가 없습니다. 이미지 생성을 건너뜁니다."
+        )
 
     if active_provider == ImageProvider.DALLE:
         return await generate_image_dalle(prompt)
