@@ -19,22 +19,26 @@ try:
 except Exception as e:
     # If import fails, create a minimal app that reports the error.
     # This helps diagnose missing dependencies or path issues on Vercel.
+    import traceback
     from fastapi import FastAPI
+
     app = FastAPI(title="Blog Agent API (Import Error)")
-    
+
+    error_message = str(e)
+    error_traceback = traceback.format_exc()
+
     @app.get("/")
     async def debug_root():
-        import traceback
         return {
             "error": "Import failed",
-            "message": str(e),
-            "traceback": traceback.format_exc(),
+            "message": error_message,
+            "traceback": error_traceback,
             "sys_path": sys.path,
             "cwd": os.getcwd(),
             "api_dir_exists": Path("api").exists(),
-            "api_main_exists": Path("api/main.py").exists()
+            "api_main_exists": Path("api/main.py").exists(),
         }
-    
+
     @app.get("/health")
     async def health():
-        return {"status": "error", "message": str(e), "mode": "error_fallback"}
+        return {"status": "error", "message": error_message, "mode": "error_fallback"}
