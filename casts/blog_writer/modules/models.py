@@ -23,7 +23,9 @@ def _get_available_provider(requested_provider: LLMProvider) -> LLMProvider:
     Priority: Requested -> OpenAI -> Google -> Anthropic
     """
     openai_key = (os.getenv("OPENAI_API_KEY") or "").strip()
-    google_key = (os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY") or "").strip()
+    google_key = (
+        os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY") or ""
+    ).strip()
     anthropic_key = (os.getenv("ANTHROPIC_API_KEY") or "").strip()
 
     # Check if requested provider is available
@@ -98,7 +100,9 @@ def get_llm(
             os.environ["GOOGLE_API_KEY"] = actual_key
         else:
             # If no key is found, raise a clear error to avoid passing an empty string to the SDK
-            raise ValueError("GOOGLE_API_KEY 또는 GEMINI_API_KEY가 비어있거나 설정되지 않았습니다.")
+            raise ValueError(
+                "GOOGLE_API_KEY 또는 GEMINI_API_KEY가 비어있거나 설정되지 않았습니다."
+            )
 
         return ChatGoogleGenerativeAI(
             model=model or "gemini-2.0-flash",

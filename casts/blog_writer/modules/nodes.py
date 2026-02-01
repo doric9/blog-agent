@@ -47,7 +47,9 @@ class FetchContent(AsyncBaseNode):
                 state["config"].get("scraper_type", "beautifulsoup")
             )
 
-        self.log(f"다음 URL에서 컨텐츠를 가져오는 중: {url} (스크레이퍼: {scraper_type})")
+        self.log(
+            f"다음 URL에서 컨텐츠를 가져오는 중: {url} (스크레이퍼: {scraper_type})"
+        )
 
         raw_content = await fetch_content(url, scraper_type)
 
